@@ -5,7 +5,7 @@ title: Home
 
 hero:
   name: "Materia Directory"
-  tagline: Materia Directory is a hub of communities and resources provided by the Materia FF14 Datacenter.
+  tagline: Materia Directory is a hub of communities and resources focussed on the Materia Datacenter and other useful FF14 resources.
   image:
     src: /images/materia-logo-large.webp
     alt: VitePress
@@ -16,7 +16,7 @@ hero:
 
 <SitesList/>
 
-# Twitch Channels <Badge type="warning" text="Beta" />
+# Community Channels <Badge type="warning" text="Beta" />
 
 ---
 
