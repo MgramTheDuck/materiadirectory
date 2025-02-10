@@ -21,3 +21,38 @@ hero:
 ---
 
 <TwitchList/>
+
+
+<script setup>
+import { VPTeamPage, VPTeamPageTitle, VPTeamMembers } from 'vitepress/theme'
+
+const members = [
+    {
+        avatar: 'https://cdn.discordapp.com/avatars/336809049985122306/bfd492b9ef84c5925c5e015c955da896?size=256',
+        name: 'Ori Na',
+        title: 'Creator',
+        desc: "@ori9607"
+    },
+    {
+        avatar: 'https://cdn.discordapp.com/avatars/211624816619290624/57e2b10fdc8c5b525ba3bbefef027696?size=256',
+        name: 'Em Gram',
+        title: 'Web Developer',
+        desc: "@mgram"
+    },
+
+]
+</script>
+
+<VPTeamPage>
+  <VPTeamPageTitle>
+    <template #title>
+      Key Contributors
+    </template>
+    <template #lead>
+      Materia Directory is a team project by a collection of dedicated members of the Materia Community. 
+    </template>
+  </VPTeamPageTitle>
+  <VPTeamMembers
+    :members="members"
+  />
+</VPTeamPage>
