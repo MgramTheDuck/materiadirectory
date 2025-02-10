@@ -10,12 +10,12 @@ hero:
     alt: VitePress
 ---
 
-# Websites
+# Websites <Badge type="warning" text="Work in Progress" />
 ---
-TODO: add other web resources here
+Coming soon
 
 
-# Twitch Channels
+# Twitch Channels <Badge type="warning" text="Work in Progress" />
 
 ---
 
