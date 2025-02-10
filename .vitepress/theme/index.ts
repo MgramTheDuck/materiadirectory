@@ -11,6 +11,8 @@ import ImageEmbed from "./components/ImageEmbed.vue";
 // @ts-ignore
 import TwitchList from "./components/TwitchList.vue";
 // @ts-ignore
+import SitesList from "./components/SitesList.vue";
+// @ts-ignore
 
 export default {
 	extends: DefaultTheme,
@@ -19,6 +21,7 @@ export default {
 		ctx.app.component("YoutubeEmbed", YoutubeEmbed);
 		ctx.app.component("ImageEmbed", ImageEmbed);
 		ctx.app.component("TwitchList", TwitchList);
+		ctx.app.component("SitesList", SitesList);
 	},
 	setup() {
 		// Get route

@@ -1,6 +1,7 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
+title: Home
 
 hero:
   name: "Materia Directory"
@@ -10,12 +11,12 @@ hero:
     alt: VitePress
 ---
 
-# Websites <Badge type="warning" text="Work in Progress" />
+# Resources <Badge type="warning" text="Beta" />
 ---
-Coming soon
 
+<SitesList/>
 
-# Twitch Channels <Badge type="warning" text="Work in Progress" />
+# Twitch Channels <Badge type="warning" text="Beta" />
 
 ---
 

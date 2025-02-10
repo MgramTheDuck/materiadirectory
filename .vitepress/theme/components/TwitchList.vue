@@ -1,37 +1,30 @@
 <script setup>
-import { data } from './loaders/twitch.data.js';
-
-let rows = data.table.rows
-
-let channels = []
-
-for (let row in rows) {
-	let channeldata = rows[row].c.map(item => item && item.v !== null ? item.v : null);
-
-	channels.push(
-		{
-			name: channeldata[0],
-			url: channeldata[1],
-			tags: channeldata[2],
-			server: channeldata[3],
-			fc: channeldata[4],
-			streamdays: channeldata[5],
-		}
-	);
-}
-
-channels.shift();
+import {data} from "./loaders/twitch.data.js";
+import { ref } from "vue";
+let input = ref("");
+let channels = data
 
 function openPage(url) {
-	let strippedUrl = url.replace("/guides", '');
+	let strippedUrl = url.replace("/guides", "");
 	window.open(strippedUrl, "_self");
+}
+
+function filteredlist() {
+	return channels.filter(channel =>
+	channel.tags.toLowerCase().includes(input.value.toLowerCase()));
 }
 
 </script>
 
 <template>
+	<div class="filterbar">
+		<input class="search" type="text" v-model="input" placeholder="Search tags..." />
+	</div>
 	<div class="twitch-list">
-		<div class="channel" v-for="channel in channels" @click="openPage(channel.url)">
+		<div :key="channel" class="channel" v-for="channel in filteredlist()" @click="openPage(channel.url)">
+			<img
+				v-bind:id="'pfp_' + channel.accountname"
+				v-bind:src="'https://twitchuserinfo.ingramscloud.workers.dev/' + channel.accountname" />
 			<div class="title">
 				<div v-if="channel.fc == null" class="name">{{ channel.name }}</div>
 				<div v-if="channel.fc != null" class="name">{{ channel.name }} <{{ channel.fc }}></div>
@@ -46,10 +39,21 @@ function openPage(url) {
 </template>
 
 <style scoped>
+.search {
+	font-size: 1.2em;
+	font-weight: 500;
+	margin-bottom: 0.5em;
+	padding: 0.3em 1em 0.3em 0.3em;
+	border-radius: 6px;
+	border: 2px solid grey;
+	background-color: var(--vp-c-bg-elv);
+}
 
 img {
 	width: 50px;
 	height: 50px;
+	border-radius: 50%;
+	margin-right: 0.7em;
 }
 
 .twitch-list {
@@ -60,9 +64,9 @@ img {
 
 .channel {
 	display: flex;
-	padding: 0.8em 1em 0.8em 1em;
+	padding: 0.7em 1em 0.7em 0.7em;
 	border-radius: 8px;
-	border: 2px solid grey;
+	border: 2px solid var(--vp-c-bg-elv);
 	background-color: var(--vp-c-bg-alt);
 	flex-grow: 1;
 	transition: 0.2s;
@@ -107,6 +111,4 @@ img {
 .days {
 	font-weight: 500;
 }
-
-
 </style>

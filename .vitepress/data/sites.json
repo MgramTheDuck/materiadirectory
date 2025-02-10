@@ -1,0 +1,32 @@
+[
+    {
+        "url": "https://materiaraiding.com/",
+        "name": "Materia Raiding",
+        "description": "Raiding Community and Resources for Materia Datacenter",
+        "image": "https://materiaraiding.com/images/materia-logo-large.webp"
+    },
+    {
+        "url": "https://discord.gg/vfTBvxx6fn",
+        "name": "Materia Wolves Den",
+        "description": "PvP Community to organize Materia ranked and unranked PvP",
+        "image": "https://cdn.discordapp.com/icons/1083504879449932008/bdd4ccb6263e46fbca8f45bfffef6035.webp"
+    },
+    {
+        "url": "https://discord.gg/faloop",
+        "name": "Faloop",
+        "description": "Discord community for organizing Hunts and Hunt Trains",
+        "image": "https://cdn.discordapp.com/icons/321601714035884034/05dacf5d5a010232566801ff9737ac82.webp"
+    },
+    {
+        "url": "https://discord.gg/FJFxr2U",
+        "name": "Content Achievers",
+        "description": "For field ops and other organized content, eg: Eureka, Bozja, BA, DRS",
+        "image": "https://cdn.discordapp.com/icons/642628091205779466/a_4dc6a7ed19885b03e89fd560b330e828.webp"
+    },
+    {
+        "url": "https://www.thebalanceffxiv.com/",
+        "name": "The Balance",
+        "description": "Class Rotations, Guides and BiS Gear Recommendations",
+        "image": "https://www.thebalanceffxiv.com/theme-assets/the_balance_icon.svg"
+    }
+]

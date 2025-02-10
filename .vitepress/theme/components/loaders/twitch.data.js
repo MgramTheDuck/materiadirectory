@@ -8,6 +8,29 @@ export default {
 		);
 		text = JSON.parse(text.substring(0, text.length - 2));
 
-		return text;
+		let rows = text.table.rows
+
+		let channels = []
+
+		for (let row in rows) {
+			let channeldata = rows[row].c.map(item => item && item.v !== null ? item.v : null);
+
+			let accountname = channeldata[1].split('/').pop()
+			channels.push(
+				{
+					name: channeldata[0],
+					url: channeldata[1],
+					tags: channeldata[2],
+					server: channeldata[3],
+					fc: channeldata[4],
+					streamdays: channeldata[5],
+					accountname: accountname,
+				}
+			);
+		}
+
+		channels.shift();
+
+		return channels;
 	}
 }
