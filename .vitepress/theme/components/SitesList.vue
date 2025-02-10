@@ -3,7 +3,7 @@ import sitesData from "../../data/sites.json";
 
 function openPage(url) {
 	let strippedUrl = url.replace("/guides", "");
-	window.open(strippedUrl, "_self");
+	window.open(strippedUrl, "_blank");
 }
 </script>
 
@@ -32,6 +32,24 @@ img {
 	margin-bottom: 1.5rem;
 }
 
+@media only screen and (max-width: 1100px) {
+	.sites-list {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+	}
+}
+
+@media only screen and (max-width: 700px) {
+	.sites-list {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+	}
+}
+
 .site-box {
 	display: flex;
 	flex-direction: column;
@@ -52,6 +70,8 @@ img {
 	font-weight: 500;
 	font-size: 1.8rem;
 	margin-bottom: 0.5rem;
+	text-align: center;
+	line-height: 1.9rem;
 }
 
 .description {
