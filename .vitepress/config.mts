@@ -26,11 +26,10 @@ export default defineConfig({
 			provider: "local",
 		},
 		socialLinks: [
-			{icon: "discord", link: "https://discord.gg/EySn5dRj65"},
-			{icon: "github", link: "https://github.com/"},
+			{icon: "github", link: "https://github.com/MgramTheDuck/materiadirectory"},
 		],
 		editLink: {
-			pattern: "https://github.com//edit/main/docs/:path",
+			pattern: "https://github.com/MgramTheDuck/materiadirectory/edit/main/docs/:path",
 			text: "Edit this page on GitHub",
 		},
 		footer: {
