@@ -27,7 +27,7 @@ function filteredlist() {
 				v-bind:src="'https://twitchuserinfo.ingramscloud.workers.dev/' + channel.accountname" />
 			<div class="title">
 				<div v-if="channel.fc == null" class="name">{{ channel.name }}</div>
-				<div v-if="channel.fc != null" class="name">{{ channel.name }} <{{ channel.fc }}></div>
+				<div v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span></div>
 				<div class="tags"># {{ channel.tags }}</div>
 			</div>
 			<div class="details">
@@ -53,7 +53,7 @@ img {
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
-	margin-right: 0.7em;
+	margin-right: 0.9em;
 }
 
 .twitch-list {
@@ -64,7 +64,7 @@ img {
 
 .channel {
 	display: flex;
-	padding: 0.7em 1em 0.7em 0.7em;
+	padding: 0.9em 1em 0.9em 0.9em;
 	border-radius: 8px;
 	border: 2px solid var(--vp-c-bg-elv);
 	background-color: var(--vp-c-bg-alt);
@@ -81,13 +81,20 @@ img {
 	display: flex;
 	flex-flow: column nowrap;
 	flex: 1;
+	justify-content: space-between;
 }
 
 .name {
 	font-weight: 600;
-	font-size: 1.4rem;
+	font-size: 1.3rem;
 	text-decoration: none;
 	color: var(--vp-c-brand);
+}
+
+.fc {
+	font-size: 1.2rem;
+	color: var(--vp-c-text-3);
+	font-weight: 500;
 }
 
 .tags {
@@ -100,6 +107,7 @@ img {
 	display: flex;
 	flex-flow: column nowrap;
 	text-align: right;
+	justify-content: space-between;
 }
 
 .server {
