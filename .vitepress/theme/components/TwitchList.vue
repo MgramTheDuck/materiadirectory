@@ -1,6 +1,8 @@
 <script setup>
 import {data} from "./loaders/twitch.data.js";
 import { ref } from "vue";
+import { onMounted } from "vue";
+
 let input = ref("");
 let channels = data
 
@@ -14,6 +16,30 @@ function filteredlist() {
 	channel.tags.toLowerCase().includes(input.value.toLowerCase()));
 }
 
+function updateStreamStatus(accountname, status) {
+	try {
+		let streamdata = status.data
+		if (streamdata.length !== 0) {
+			streamdata = streamdata[0]
+			if (streamdata.type === "live") {
+				let element = document.getElementById('channel_' + accountname);
+				element.classList.add("live");
+				element = document.getElementById('title_' + accountname);
+				element.innerHTML += "<span style='color: #fc7d85'> LIVE</span>";
+			}
+		}
+	} catch (e) {
+		console.log(`Error loading data: ${accountname} Error: ${e}`);
+	}
+}
+
+onMounted(async () => {
+	for (let channel of channels) {
+		fetch(`https://twitchstatus.ingramscloud.workers.dev/${channel.accountname}`)
+			.then((response) => response.json()).then(data => { updateStreamStatus(channel.accountname, data) });
+	}
+});
+
 </script>
 
 <template>
@@ -21,14 +47,14 @@ function filteredlist() {
 		<input class="search" type="text" v-model="input" placeholder="Search tags..." />
 	</div>
 	<div class="twitch-list">
-		<div :key="channel" class="channel" v-for="channel in filteredlist()" @click="openPage(channel.url)">
+		<div v-bind:id="'channel_' + channel.accountname" :key="channel" class="channel" v-for="channel in filteredlist()" @click="openPage(channel.url)">
 			<img
 				v-bind:id="'pfp_' + channel.accountname"
 				v-bind:src="'https://twitchuserinfo.ingramscloud.workers.dev/' + channel.accountname" />
 			<div class="title">
-				<div v-if="channel.fc == null" class="name">{{ channel.name }}</div>
-				<div v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span></div>
-				<div class="tags"># {{ channel.tags }}</div>
+				<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc == null" class="name">{{ channel.name }}</div>
+				<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span></div>
+				<div v-bind:id="'tags_' + channel.accountname" class="tags"># {{ channel.tags }}</div>
 			</div>
 			<div class="details">
 				<div class="days">{{ channel.streamdays }}</div>
@@ -71,6 +97,14 @@ img {
 	flex-grow: 1;
 	transition: 0.2s;
 	cursor: pointer;
+}
+
+.live {
+	border-color: #fc7d85;
+}
+
+.livetext {
+	color: #fc7d85;
 }
 
 .channel:hover {
