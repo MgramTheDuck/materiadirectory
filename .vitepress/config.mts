@@ -19,6 +19,7 @@ export default defineConfig({
 			{text: "Home", link: "/"},
 			{text: "Channels", link: "/channels"},
 			{text: "Resources", link: "/resources"},
+			{text: "Sheet", link: "https://docs.google.com/spreadsheets/u/0/d/1xsugAiw0j3Kz0Ic41gD-QuMtfxiVtlf-mujLC3Xt78c/htmlview#gid=1687590289"},
 			{text: "About", link: "/about"},
 		],
 		sidebar: {

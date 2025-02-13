@@ -75,5 +75,26 @@
         "description": "Crafting and Gathering Tools and Resources",
         "image": "https://cdn.discordapp.com/icons/355013337748209665/db9308e03fce63c0bab780c5cf6f1255.webp",
         "type": "discord"
+    },
+    {
+        "url": "https://www.facebook.com/groups/FFXIVANZ",
+        "name": "FFXIV ANZ Facebook",
+        "description": "ANZ Facebook hub for the OCE region",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png",
+        "type": "website"
+    },
+    {
+        "url": "https://discord.gg/EPWT43yfb7",
+        "name": "Materia Mahjong",
+        "description": "Guides and queues for Mahjong",
+        "image": "https://cdn.discordapp.com/icons/933315430213378068/0bfc478d7bccce6b788d48642df28f1b.webp",
+        "type": "discord"
+    },
+    {
+        "url": "https://discord.gg/jjammin",
+        "name": "JJammin'",
+        "description": "Music, Productions and Community Events",
+        "image": "https://cdn.discordapp.com/icons/1243540668174045254/a_839352d8d1540a3873817cb66f0b5bf9.webp",
+        "type": "discord"
     }
 ]
