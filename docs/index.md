@@ -12,6 +12,7 @@ hero:
 ---
 
 # Resources <Badge type="warning" text="Beta" />
+
 ---
 
 <SitesList/>
