@@ -10,19 +10,32 @@ function openPage(url) {
 <template>
 	<div class="sites-list">
 		<div class="site-box" v-for="site in sitesData" @click="openPage(site.url)">
-			<img v-bind:src="site.image" alt="">
-			<div class="name">{{ site.name }}</div>
-			<div class="description">{{ site.description }}</div>
+			<img class="site-type" v-bind:src="'/images/icons/' + site.type + '.svg'" alt="">
+			<div class="site-content">
+				<img class="site-image" v-bind:src="site.image" alt="">
+				<div class="name">{{ site.name }}</div>
+				<div class="description">{{ site.description }}</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
-img {
+.site-image {
 	width: 80px;
 	height: 80px;
 	margin-bottom: 0.8em;
 	border-radius: 50%;
+	box-shadow: var(--vp-shadow-3);
+}
+
+.site-type {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 20px;
+	filter: grayscale(1);
+	opacity: 0.5;
 }
 
 .sites-list {
@@ -51,15 +64,23 @@ img {
 }
 
 .site-box {
-	display: flex;
-	flex-direction: column;
-	padding: 1em 0.9em 1em 0.9em;
+	position: relative;
 	border-radius: 8px;
 	border: 2px solid var(--vp-c-bg-elv);
 	background-color: var(--vp-c-bg-alt);
-	align-items: center;
 	cursor: pointer;
 	transition: 0.3s;
+}
+
+.site-content {
+	display: flex;
+	flex-direction: column;
+	padding: 1em 0.9em 1em 0.9em;
+	align-items: center;
+}
+
+.site-type {
+
 }
 
 .site-box:hover {

@@ -88,6 +88,7 @@ img {
 	height: 50px;
 	border-radius: 50%;
 	margin-right: 0.9em;
+	box-shadow: var(--vp-shadow-2);
 }
 
 .twitch-list {
@@ -116,6 +117,7 @@ img {
 }
 
 .livelabel {
+	color: white;
 	position: absolute;
 	top: -16px;
 	right: 10px;

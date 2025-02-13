@@ -3,66 +3,77 @@
         "url": "https://materiaraiding.com/",
         "name": "Materia Raiding",
         "description": "Raiding Community and Resources for Materia Datacenter",
-        "image": "https://materiaraiding.com/images/materia-logo-large.webp"
+        "image": "https://materiaraiding.com/images/materia-logo-large.webp",
+        "type": "website"
     },
     {
         "url": "https://discord.gg/vfTBvxx6fn",
         "name": "Materia Wolves Den",
         "description": "PvP Community to organize Materia ranked and unranked PvP",
-        "image": "https://cdn.discordapp.com/icons/1083504879449932008/bdd4ccb6263e46fbca8f45bfffef6035.webp"
+        "image": "https://cdn.discordapp.com/icons/1083504879449932008/bdd4ccb6263e46fbca8f45bfffef6035.webp",
+        "type": "discord"
     },
     {
         "url": "https://discord.gg/overseascasuals",
         "name": "Overseas Casuals",
         "description": "Island Sanctuary help and guides",
-        "image": "https://cdn.discordapp.com/icons/1034534280757522442/541a05f97b23eef1f94747c35f963523.webp"
+        "image": "https://cdn.discordapp.com/icons/1034534280757522442/541a05f97b23eef1f94747c35f963523.webp",
+        "type": "discord"
     },
     {
         "url": "https://discord.gg/faloop",
         "name": "Faloop",
         "description": "Discord community for organizing Hunts and Hunt Trains",
-        "image": "https://cdn.discordapp.com/icons/321601714035884034/05dacf5d5a010232566801ff9737ac82.webp"
+        "image": "https://cdn.discordapp.com/icons/321601714035884034/05dacf5d5a010232566801ff9737ac82.webp",
+        "type": "discord"
     },
     {
         "url": "https://discord.gg/wN3cF8qmCT",
         "name": "FFXIV Submarine Builders",
         "description": "FC Submarine building help and guides",
-        "image": "https://cdn.discordapp.com/icons/607692512773013536/619e09c1e6a924b800cfc0c074f3e1fe.webp"
+        "image": "https://cdn.discordapp.com/icons/607692512773013536/619e09c1e6a924b800cfc0c074f3e1fe.webp",
+        "type": "discord"
     },
     {
         "url": "https://discord.gg/FJFxr2U",
         "name": "Content Achievers",
         "description": "For field ops and other organized content, eg: Eureka, Bozja, BA, DRS",
-        "image": "https://cdn.discordapp.com/icons/642628091205779466/a_4dc6a7ed19885b03e89fd560b330e828.webp"
+        "image": "https://cdn.discordapp.com/icons/642628091205779466/a_4dc6a7ed19885b03e89fd560b330e828.webp",
+        "type": "discord"
     },
     {
         "url": "https://www.thebalanceffxiv.com/",
         "name": "The Balance",
         "description": "Class Rotations, Guides and BiS Gear Recommendations",
-        "image": "https://www.thebalanceffxiv.com/theme-assets/the_balance_icon.svg"
+        "image": "https://www.thebalanceffxiv.com/theme-assets/the_balance_icon.svg",
+        "type": "website"
     },
     {
         "url": "https://discord.gg/bhM6PbCCjc",
         "name": "MAT Gala",
         "description": "FFXIV Glamour and Events on Materia DC",
-        "image": "https://cdn.discordapp.com/icons/1127609386861351023/82e4ab619827846ba4e1002e87384f28.webp"
+        "image": "https://cdn.discordapp.com/icons/1127609386861351023/82e4ab619827846ba4e1002e87384f28.webp",
+        "type": "discord"
     },
     {
         "url": "https://discord.gg/blueacademy",
         "name": "Blue Academy",
         "description": "Blue Mage help and guides",
-        "image": "https://cdn.discordapp.com/icons/762797677133561887/a_a0e8713a5cf959b2b3c2e6b1cd4adf4b.webp"
+        "image": "https://cdn.discordapp.com/icons/762797677133561887/a_a0e8713a5cf959b2b3c2e6b1cd4adf4b.webp",
+        "type": "discord"
     },
     {
         "url": "https://discord.gg/fishcord",
         "name": "Fishcord",
         "description": "Fishin'",
-        "image": "https://cdn.discordapp.com/icons/327124808217395200/837969ce445145ec115a0c387833826f.webp"
+        "image": "https://cdn.discordapp.com/icons/327124808217395200/837969ce445145ec115a0c387833826f.webp",
+        "type": "discord"
     },
     {
         "url": "https://discord.gg/ffxiv-teamcraft-355013337748209665",
         "name": "Teamcraft",
         "description": "Crafting and Gathering Tools and Resources",
-        "image": "https://cdn.discordapp.com/icons/355013337748209665/db9308e03fce63c0bab780c5cf6f1255.webp"
+        "image": "https://cdn.discordapp.com/icons/355013337748209665/db9308e03fce63c0bab780c5cf6f1255.webp",
+        "type": "discord"
     }
 ]
