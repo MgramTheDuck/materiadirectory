@@ -31,11 +31,10 @@ function openPage(url) {
 
 .site-type {
 	position: absolute;
-	top: 10px;
-	right: 10px;
+	top: 13px;
+	right: 13px;
 	width: 20px;
 	filter: grayscale(1);
-	opacity: 0.5;
 }
 
 .sites-list {
