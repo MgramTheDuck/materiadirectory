@@ -119,16 +119,15 @@ img {
 .livelabel {
 	color: white;
 	position: absolute;
-	top: -16px;
-	right: 10px;
-	font-size: 1em;
+	top: -13px;
+	right: 12px;
+	font-size: 1.1em;
 	font-weight: 600;
-	border-radius: 4px;
-	border: 2px solid var(--vp-c-bg-elv);
+	border-radius: 8px;
 	background-color: var(--livecolor);
-	border-color: var(--livecolor);
-	padding: 00em 0.2em;
-	text-shadow: 1px 1px 2px black;
+	padding: 2px 7px;
+	line-height: normal;
+	letter-spacing: 0.2px;
 }
 
 .channel:hover {

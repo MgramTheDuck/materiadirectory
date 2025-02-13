@@ -9,3 +9,7 @@ title: Channels
 ---
 
 <TwitchList/>
+
+::: info
+Want to get added to the list? learn how to apply on the [About](/about) page!
+:::

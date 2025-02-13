@@ -23,6 +23,10 @@ hero:
 
 <TwitchList/>
 
+::: info
+Want to get added to the list? learn how to apply on the [About](/about) page!
+:::
+
 
 <script setup>
 import { VPTeamPage, VPTeamPageTitle, VPTeamMembers } from 'vitepress/theme'
