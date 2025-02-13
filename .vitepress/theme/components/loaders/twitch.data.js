@@ -33,13 +33,22 @@ export default {
 
 		let fetches = []
 		let array = [];
+
+
+
 		for (let channel in channels) {
-			fetches.push(
-				fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channels[channel].accountname}`)
-					.then((response) => response.json())
-					.then(data => { array.push({ accountname: channels[channel].accountname, profile_url: data.profile_url }) ; })
-					.catch(err => {return console.log(err);})
-			)
+			// Load images from API only on production (reduces API calls in dev)
+			if (process.env.NODE_ENV === 'production') {
+				fetches.push(
+					fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channels[channel].accountname}`)
+						.then((response) => response.json())
+						.then(data => { array.push({ accountname: channels[channel].accountname, profile_url: data.profile_url }) ; })
+						.catch(err => {return console.log(err);})
+				)
+			} else {
+				array.push({ accountname: channels[channel].accountname, profile_url: 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-70x70.png' })
+			}
+
 		}
 
 		// TODO: Find a way to merge array and channels
@@ -48,7 +57,6 @@ export default {
 				let result = array.find((item) => item.accountname === channels[channel].accountname);
 				channels[channel].profile_url = result.profile_url;
 			}
-			console.log(channels);
 			return channels;
 		});
 

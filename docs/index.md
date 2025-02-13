@@ -35,6 +35,12 @@ const members = [
         desc: "@ori9607"
     },
     {
+        avatar: 'https://cdn.discordapp.com/avatars/327029966858485772/270d40f773fef3c3b2f69942412bdb60?size=256',
+        name: 'Mango',
+        title: 'Creator',
+        desc: "@mango_vi"
+    },
+    {
         avatar: 'https://cdn.discordapp.com/avatars/211624816619290624/57e2b10fdc8c5b525ba3bbefef027696?size=256',
         name: 'Em Gram',
         title: 'Web Developer',
