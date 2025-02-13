@@ -1,5 +1,5 @@
 <script setup>
-import {data} from "./loaders/twitch.data.js";
+import { data } from "./loaders/twitch.data.js";
 import { ref } from "vue";
 import { onMounted } from "vue";
 
@@ -24,8 +24,9 @@ function updateStreamStatus(accountname, status) {
 			if (streamdata.type === "live") {
 				let element = document.getElementById('channel_' + accountname);
 				element.classList.add("live");
-				element = document.getElementById('title_' + accountname);
-				element.innerHTML += "<span style='color: #fc7d85'> LIVE</span>";
+				element = document.getElementById('livetag_' + accountname);
+				element.style.display = "inline-block";
+
 			}
 		}
 	} catch (e) {
@@ -50,10 +51,10 @@ onMounted(async () => {
 		<div v-bind:id="'channel_' + channel.accountname" :key="channel" class="channel" v-for="channel in filteredlist()" @click="openPage(channel.url)">
 			<img
 				v-bind:id="'pfp_' + channel.accountname"
-				v-bind:src="'https://twitchuserinfo.ingramscloud.workers.dev/' + channel.accountname" />
+				v-bind:src="channel.profile_url" />
 			<div class="title">
-				<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc == null" class="name">{{ channel.name }}</div>
-				<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span></div>
+				<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc == null" class="name">{{ channel.name }} <span v-bind:id="'livetag_' + channel.accountname" style='color: #fc7d85; display: none'>LIVE</span></div>
+				<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span> <span v-bind:id="'livetag_' + channel.accountname" style='color: #fc7d85; display: none'>LIVE</span></div>
 				<div v-bind:id="'tags_' + channel.accountname" class="tags"># {{ channel.tags }}</div>
 			</div>
 			<div class="details">
@@ -101,10 +102,6 @@ img {
 
 .live {
 	border-color: #fc7d85;
-}
-
-.livetext {
-	color: #fc7d85;
 }
 
 .channel:hover {

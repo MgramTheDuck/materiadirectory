@@ -17,6 +17,8 @@ export default defineConfig({
 		outline: "deep",
 		nav: [
 			{text: "Home", link: "/"},
+			{text: "Channels", link: "/channels"},
+			{text: "Resources", link: "/resources"},
 			{text: "About", link: "/about"},
 		],
 		sidebar: {

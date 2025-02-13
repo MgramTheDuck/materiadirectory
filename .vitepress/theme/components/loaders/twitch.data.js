@@ -31,6 +31,26 @@ export default {
 
 		channels.shift();
 
-		return channels;
+		let fetches = []
+		let array = [];
+		for (let channel in channels) {
+			fetches.push(
+				fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channels[channel].accountname}`)
+					.then((response) => response.json())
+					.then(data => { array.push({ accountname: channels[channel].accountname, profile_url: data.profile_url }) ; })
+					.catch(err => {return console.log(err);})
+			)
+		}
+
+		// TODO: Find a way to merge array and channels
+		return Promise.all(fetches).then(function() {
+			for (let channel in channels) {
+				let result = array.find((item) => item.accountname === channels[channel].accountname);
+				channels[channel].profile_url = result.profile_url;
+			}
+			console.log(channels);
+			return channels;
+		});
+
 	}
 }
