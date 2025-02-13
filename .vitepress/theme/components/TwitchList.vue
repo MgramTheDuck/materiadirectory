@@ -2,6 +2,7 @@
 import { data } from "./loaders/twitch.data.js";
 import { ref } from "vue";
 import { onMounted } from "vue";
+import {forEach} from "lodash";
 
 let input = ref("");
 let channels = data
@@ -16,29 +17,32 @@ function filteredlist() {
 	channel.tags.toLowerCase().includes(input.value.toLowerCase()));
 }
 
-function updateStreamStatus(accountname, status) {
+function updateStreamStatus(status) {
 	try {
-		let streamdata = status.data
-		if (streamdata.length !== 0) {
-			streamdata = streamdata[0]
-			if (streamdata.type === "live") {
-				let element = document.getElementById('channel_' + accountname);
-				element.classList.add("live");
-				element = document.getElementById('livetag_' + accountname);
-				element.style.display = "inline-block";
+		if (status.type === "live") {
+			let element = document.getElementById('channel_' + status.user_login);
+			element.classList.add("live");
+			element = document.getElementById('livetag_' + status.user_login);
+			element.style.display = "inline-block";
 
-			}
 		}
 	} catch (e) {
-		console.log(`Error loading data: ${accountname} Error: ${e}`);
+		console.log(`Error loading data: ${status.user_login} Error: ${e}`);
 	}
 }
 
 onMounted(async () => {
-	for (let channel of channels) {
-		fetch(`https://twitchstatus.ingramscloud.workers.dev/${channel.accountname}`)
-			.then((response) => response.json()).then(data => { updateStreamStatus(channel.accountname, data) });
-	}
+	let response = await fetch(`https://twitchstatusbulk.ingramscloud.workers.dev/`, {
+		method: "POST",
+		body: JSON.stringify(channels),
+		mode: "cors",
+		headers: {
+			"content-type": "application/json",
+		},
+	})
+	let data = await response.json()
+	console.log(data)
+	data.forEach((channel) => { updateStreamStatus(channel); });
 });
 
 </script>

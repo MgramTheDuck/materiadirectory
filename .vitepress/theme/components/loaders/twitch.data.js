@@ -25,6 +25,9 @@ export default {
 					fc: channeldata[4],
 					streamdays: channeldata[5],
 					accountname: accountname,
+					status: {
+						live: false,
+					},
 				}
 			);
 		}
