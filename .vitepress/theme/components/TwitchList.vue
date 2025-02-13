@@ -41,7 +41,6 @@ onMounted(async () => {
 		},
 	})
 	let data = await response.json()
-	console.log(data)
 	data.forEach((channel) => { updateStreamStatus(channel); });
 });
 
