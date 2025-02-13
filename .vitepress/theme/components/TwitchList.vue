@@ -53,23 +53,27 @@ onMounted(async () => {
 	</div>
 	<div class="twitch-list">
 		<div v-bind:id="'channel_' + channel.accountname" :key="channel" class="channel" v-for="channel in filteredlist()" @click="openPage(channel.url)">
-			<img
-				v-bind:id="'pfp_' + channel.accountname"
-				v-bind:src="channel.profile_url" />
-			<div class="title">
-				<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc == null" class="name">{{ channel.name }} <span v-bind:id="'livetag_' + channel.accountname" style='color: #fc7d85; display: none'>LIVE</span></div>
-				<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span> <span v-bind:id="'livetag_' + channel.accountname" style='color: #fc7d85; display: none'>LIVE</span></div>
-				<div v-bind:id="'tags_' + channel.accountname" class="tags"># {{ channel.tags }}</div>
-			</div>
-			<div class="details">
-				<div class="days">{{ channel.streamdays }}</div>
-				<div class="server">{{ channel.server }}</div>
+			<div v-bind:id="'livetag_' + channel.accountname" style="display: none" class="livelabel">LIVE</div>
+			<div class="channelcontent">
+				<img
+					v-bind:id="'pfp_' + channel.accountname"
+					v-bind:src="channel.profile_url" />
+				<div class="title">
+					<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc == null" class="name">{{ channel.name }}</div>
+					<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span></div>
+					<div v-bind:id="'tags_' + channel.accountname" class="tags"># {{ channel.tags }}</div>
+				</div>
+				<div class="details">
+					<div class="days">{{ channel.streamdays }}</div>
+					<div class="server">{{ channel.server }}</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
+
 .search {
 	font-size: 1.2em;
 	font-weight: 500;
@@ -94,18 +98,36 @@ img {
 }
 
 .channel {
-	display: flex;
-	padding: 0.9em 1em 0.9em 0.9em;
+	position: relative;
 	border-radius: 8px;
 	border: 2px solid var(--vp-c-bg-elv);
 	background-color: var(--vp-c-bg-alt);
-	flex-grow: 1;
 	transition: 0.2s;
+	flex-grow: 1;
 	cursor: pointer;
 }
 
+.channelcontent {
+	display: flex;
+	padding: 0.9em 1em 0.9em 0.9em;
+}
+
 .live {
-	border-color: #fc7d85;
+	border-color: var(--livecolor);
+}
+
+.livelabel {
+	position: absolute;
+	top: -16px;
+	right: 10px;
+	font-size: 1em;
+	font-weight: 600;
+	border-radius: 4px;
+	border: 2px solid var(--vp-c-bg-elv);
+	background-color: var(--livecolor);
+	border-color: var(--livecolor);
+	padding: 00em 0.2em;
+	text-shadow: 1px 1px 2px black;
 }
 
 .channel:hover {
