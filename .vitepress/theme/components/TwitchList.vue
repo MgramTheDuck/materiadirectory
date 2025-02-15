@@ -9,7 +9,7 @@ let channels = data
 
 function openPage(url) {
 	let strippedUrl = url.replace("/guides", "");
-	window.open(strippedUrl, "_self");
+	window.open(strippedUrl, "_blank");
 }
 
 function filteredlist() {
