@@ -5,17 +5,26 @@ function openPage(url) {
 	let strippedUrl = url.replace("/guides", "");
 	window.open(strippedUrl, "_blank");
 }
+
 </script>
 
 <template>
 	<div class="sites-list">
-		<div class="site-box" v-for="site in sitesData" @click="openPage(site.url)">
-			<img class="site-type" v-bind:src="'/images/icons/' + site.type + '.svg'" alt="">
-			<div class="site-content">
-				<img class="site-image" v-bind:src="site.image" alt="">
-				<div class="name">{{ site.name }}</div>
-				<div class="description">{{ site.description }}</div>
-			</div>
+		<div class="site-box" v-for="site in sitesData">
+			<a v-bind:href="site.locations[0].url">
+				<ul class="site-link-list">
+					<li v-for="location in site.locations">
+						<a v-bind:href="location.url" target="_blank">
+							<img class="site-link-img" v-bind:src="'/images/icons/' + location.type + '.svg'"/>
+						</a>
+					</li>
+				</ul>
+				<div class="site-content">
+					<img class="site-image" v-bind:src="site.image" alt="">
+					<div class="name">{{ site.name }}</div>
+					<div class="description">{{ site.description }}</div>
+				</div>
+			</a>
 		</div>
 	</div>
 </template>
@@ -29,19 +38,30 @@ function openPage(url) {
 	box-shadow: var(--vp-shadow-3);
 }
 
-.site-type {
-	position: absolute;
-	top: 13px;
-	right: 13px;
-	width: 20px;
-	filter: grayscale(1);
-}
-
 .sites-list {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap: 1rem;
 	margin-bottom: 1.5rem;
+}
+
+.site-link-list {
+	position: absolute;
+	list-style: none;
+	right: 13px;
+}
+
+.site-link-img {
+	width: 22px;
+	filter: grayscale(1);
+	padding-top: 2px;
+}
+
+.site-link-img:hover {
+	/* Long list of filters but achieves same colour as --vp-c-brand-1
+	   brightness(0) and saturate(1) are used to make svg black before applying following filters */
+	filter: brightness(0) saturate(1) invert(68%) sepia(37%) saturate(7278%) hue-rotate(221deg) brightness(104%) contrast(105%);
+	transition: all 3s linear;
 }
 
 @media only screen and (max-width: 1100px) {
@@ -84,6 +104,22 @@ function openPage(url) {
 
 .site-box:hover {
 	border-color: var(--vp-c-brand-1);
+}
+
+.site-box > a:link {
+	text-decoration: none;
+}
+
+.site-box > a:hover {
+	text-decoration: none;
+}
+
+.site-box > a:visited {
+	text-decoration: none;
+}
+
+.site-box > a:active {
+	text-decoration: none;
 }
 
 .name {

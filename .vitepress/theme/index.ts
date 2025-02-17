@@ -24,9 +24,8 @@ export default {
 		ctx.app.component("SitesList", SitesList);
 	},
 	setup() {
-		// Get route
-		const route = useRoute();
-		// Using
-		imageViewer(route);
+		// vitepress-plugin-image-viewer, disabled
+		//const route = useRoute();
+		//imageViewer(route);
 	},
 };
