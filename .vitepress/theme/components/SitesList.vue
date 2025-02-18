@@ -53,15 +53,15 @@ function openPage(url) {
 
 .site-link-img {
 	width: 22px;
-	filter: grayscale(1);
+	filter: grayscale(100%);
 	padding-top: 2px;
+	transition: 0.5s filter linear;
 }
 
 .site-link-img:hover {
 	/* Long list of filters but achieves same colour as --vp-c-brand-1
 	   brightness(0) and saturate(1) are used to make svg black before applying following filters */
-	filter: brightness(0) saturate(1) invert(68%) sepia(37%) saturate(7278%) hue-rotate(221deg) brightness(104%) contrast(105%);
-	transition: all 3s linear;
+	filter: brightness(0%) saturate(100%) invert(68%) sepia(37%) saturate(7278%) hue-rotate(221deg) brightness(104%) contrast(105%);
 }
 
 @media only screen and (max-width: 1100px) {
