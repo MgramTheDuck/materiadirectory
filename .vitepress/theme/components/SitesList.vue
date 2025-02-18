@@ -55,7 +55,6 @@ function openPage(url) {
 	width: 22px;
 	filter: grayscale(100%);
 	padding-top: 2px;
-	transition: 0.5s filter linear;
 }
 
 .site-link-img:hover {
