@@ -7,16 +7,27 @@ import {forEach} from "lodash";
 let input = ref("");
 let channels = data
 
+/**
+ * Simple call for loading the channel link in a new tab.
+ */
 function openPage(url) {
 	let strippedUrl = url.replace("/guides", "");
 	window.open(strippedUrl, "_blank");
 }
 
+/**
+ * Called to update channel list with filtered array based on channel tags
+ * @returns {array} Returns filtered array
+ */
 function filteredlist() {
 	return channels.filter(channel =>
 	channel.tags.toLowerCase().includes(input.value.toLowerCase()));
 }
 
+/**
+ * Dynamically Updates the website after page load with Twitch LIVE status info.
+ * @param {array} status Object array of channels to be fetched.
+ */
 function updateStreamStatus(status) {
 	try {
 		if (status.type === "live") {
@@ -31,6 +42,11 @@ function updateStreamStatus(status) {
 	}
 }
 
+/**
+ * After page load, sends a JSON GET request to cloudflare worker, the worker batches the channels and requests Twitch LIVE status
+ * Returns the data in a JSON format that is sent o updateSteamStatus function to update the page.
+ * CLIENT SIDE
+ */
 onMounted(async () => {
 	let response = await fetch(`https://twitchstatusbulk.ingramscloud.workers.dev/`, {
 		method: "POST",
