@@ -41,12 +41,15 @@ export default {
 
 		for (let channel in channels) {
 			// Load images from API only on production (reduces API calls in dev)
-			if (process.env.NODE_ENV === 'production') {
+			if (process.env.NODE_ENV != 'production') {
 				fetches.push(
 					fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channels[channel].accountname}`)
 						.then((response) => response.json())
-						.then(data => { array.push({ accountname: channels[channel].accountname, profile_url: data.profile_url }) ; })
-						.catch(err => {return console.log(err);})
+						.then(data => {array.push({ accountname: channels[channel].accountname, profile_url: data.profile_url }); })
+						.catch(err => {
+							array.push({ accountname: channels[channel].accountname, profile_url: 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-70x70.png' });
+							return console.log(err);
+						})
 				)
 			} else {
 				array.push({ accountname: channels[channel].accountname, profile_url: 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-70x70.png' })
