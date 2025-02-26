@@ -32,8 +32,15 @@ export default {
 		}
 
 		return await Promise.all(channels.map(async channel => {
-			const userInfo = await fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channel.accountname}`).then(res => res.json());
-			return { ...channel, profile_url: userInfo.profile_url };
+			try {
+				const userInfo = await fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channel.accountname}`)
+					.then(res => res.json());
+				return { ...channel, profile_url: userInfo.profile_url };
+			} catch (error) {
+				// Return channel as is if fetch fails (needed for banned or suspended accounts)
+				console.error(`Failed to fetch user info for ${channel.accountname}:`, error);
+				return { ...channel };
+			}
 		}));
 	}
 };
