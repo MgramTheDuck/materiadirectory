@@ -1,76 +1,39 @@
 export default {
 	async load() {
+		const sheetURL = 'https://docs.google.com/spreadsheets/u/0/d/1xsugAiw0j3Kz0Ic41gD-QuMtfxiVtlf-mujLC3Xt78c/gviz/tq?tqx=out:json&sheet=twitch';
+		const defaultPicURL = 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-70x70.png';
 
 		// Fetches the channel list from google sheets
-		let data = await fetch('https://docs.google.com/spreadsheets/u/0/d/1xsugAiw0j3Kz0Ic41gD-QuMtfxiVtlf-mujLC3Xt78c/gviz/tq?tqx=out:json&sheet=twitch')
-		let text = await data.text();
-		text = text.replaceAll(
-			"/*O_o*/\ngoogle.visualization.Query.setResponse(",
-			""
+		const sheet = JSON.parse((await (await fetch(sheetURL)).text())
+			.replace("/*O_o*/\ngoogle.visualization.Query.setResponse(", "")
+			.slice(0, -2)
 		);
-		text = JSON.parse(text.substring(0, text.length - 2));
-		let rows = text.table.rows
-		let channels = []
 
 		// Compile the google sheet data into an object array
-		for (let row in rows) {
-			let channeldata = rows[row].c.map(item => item && item.v !== null ? item.v : null);
-			let accountname = channeldata[1].split('/').pop()
-			channels.push(
-				{
-					name: channeldata[0],
-					url: channeldata[1],
-					tags: channeldata[2],
-					server: channeldata[3],
-					fc: channeldata[4],
-					streamdays: channeldata[5],
-					accountname: accountname,
-					status: {
-						live: false,
-					},
-				}
-			);
+		const channels = sheet.table.rows.slice(1).reduce((acc, row) => {
+			const channelData = row.c.map(item => item?.v ?? null);
+			acc.push({
+				name: channelData[0],
+				url: channelData[1],
+				tags: channelData[2],
+				server: channelData[3],
+				fc: channelData[4],
+				streamdays: channelData[5],
+				accountname: channelData[1].split('/').pop(),
+				profile_url: defaultPicURL,
+				status: { live: false },
+			});
+			return acc;
+		}, []);
+
+		// Load profile images from API only on production (reduces API calls in dev)
+		if (process.env.NODE_ENV !== 'production') {
+			return channels; // Otherwise, return the channels as is with default profile pics
 		}
 
-		// Removes the header row from the table
-		channels.shift();
-
-		// Setting up batch for async requests to fetch channel PFP images, allows all requests to run at once and wait till all finished.
-		let fetches = []
-		// Temporary array to hold fetch results, will be merged later
-		let array = [];
-
-		for (let channel in channels) {
-			// Load images from API only on production (reduces API calls in dev)
-			if (process.env.NODE_ENV === 'production') {
-				fetches.push(
-					fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channels[channel].accountname}`)
-						.then((response) => response.json())
-						.then(data => {array.push({ accountname: channels[channel].accountname, profile_url: data.profile_url }); })
-						.catch(err => {
-							// Push default image if fetch fails (needed for banned or suspended accounts)
-							array.push({ accountname: channels[channel].accountname, profile_url: 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-70x70.png' });
-							return console.log(err);
-						})
-				)
-			} else {
-				// Always use default image in dev mode (reduces requests on worker)
-				array.push({ accountname: channels[channel].accountname, profile_url: 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-70x70.png' })
-			}
-
-		}
-
-		// After the fetch requests have completed, merges the profile images into the Channel Array
-		// Probably a better way to do this but im dumb.
-		return Promise.all(fetches).then(function() {
-			for (let channel in channels) {
-				let result = array.find((item) => item.accountname === channels[channel].accountname);
-				channels[channel].profile_url = result.profile_url;
-			}
-
-			// Return the channel array to be built into the page
-			return channels;
-		});
-
+		return await Promise.all(channels.map(async channel => {
+			const userInfo = await fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channel.accountname}`).then(res => res.json());
+			return { ...channel, profile_url: userInfo.profile_url };
+		}));
 	}
-}
+};
