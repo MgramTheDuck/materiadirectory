@@ -4,10 +4,17 @@ export default {
 		const defaultPicURL = 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-70x70.png';
 
 		// Fetches the channel list from google sheets
-		const sheet = JSON.parse((await (await fetch(sheetURL)).text())
-			.replace("/*O_o*/\ngoogle.visualization.Query.setResponse(", "")
-			.slice(0, -2)
-		);
+		try {
+			const response = await fetch(sheetURL);
+			const text = await response.text();
+			var sheet = JSON.parse(text
+				.replace("/*O_o*/\ngoogle.visualization.Query.setResponse(", "")
+				.slice(0, -2)
+			);
+		} catch (error) {
+			console.log("Failed to fetch sheet:", error);
+			return [];
+		}
 
 		// Compile the google sheet data into an object array
 		const channels = sheet.table.rows.slice(1).reduce((acc, row) => {
@@ -33,8 +40,8 @@ export default {
 
 		return await Promise.all(channels.map(async channel => {
 			try {
-				const userInfo = await fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channel.accountname}`)
-					.then(res => res.json());
+				const response = await fetch(`https://twitchuserinfo.ingramscloud.workers.dev/${channel.accountname}`);
+				const userInfo = await response.json();
 				return { ...channel, profile_url: userInfo.profile_url };
 			} catch (error) {
 				// Return channel as is if fetch fails (needed for banned or suspended accounts)
