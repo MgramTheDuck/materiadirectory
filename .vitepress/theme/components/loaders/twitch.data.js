@@ -1,4 +1,9 @@
 export default {
+
+	/**
+	 * @returns {Object[]} An array of channel objects.
+	 */
+
 	async load() {
 		const sheetURL = 'https://docs.google.com/spreadsheets/u/0/d/1xsugAiw0j3Kz0Ic41gD-QuMtfxiVtlf-mujLC3Xt78c/gviz/tq?tqx=out:json&sheet=twitch';
 		const defaultPicURL = 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-70x70.png';
