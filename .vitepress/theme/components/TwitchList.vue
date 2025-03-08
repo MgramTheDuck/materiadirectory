@@ -2,10 +2,9 @@
 import { data } from "./loaders/twitch.data.js";
 import { ref } from "vue";
 import { onMounted } from "vue";
-import {forEach} from "lodash";
 
 let input = ref("");
-let channels = data
+let channels = data;
 
 /**
  * Simple call for loading the channel link in a new tab.
@@ -48,6 +47,10 @@ function updateStreamStatus(status) {
  * CLIENT SIDE
  */
 onMounted(async () => {
+	if (channels.length === 0) {
+		return;
+	}
+
 	let response = await fetch(`https://twitchstatusbulk.ingramscloud.workers.dev/`, {
 		method: "POST",
 		body: JSON.stringify(channels),
@@ -56,6 +59,7 @@ onMounted(async () => {
 			"content-type": "application/json",
 		},
 	})
+
 	let data = await response.json()
 	data.forEach((channel) => { updateStreamStatus(channel); });
 });
@@ -67,23 +71,26 @@ onMounted(async () => {
 		<input class="search" type="text" v-model="input" placeholder="Search tags..." />
 	</div>
 	<div class="twitch-list">
-		<div v-bind:id="'channel_' + channel.accountname" :key="channel" class="channel" v-for="channel in filteredlist()" @click="openPage(channel.url)">
-			<div v-bind:id="'livetag_' + channel.accountname" style="display: none" class="livelabel">LIVE</div>
-			<div class="channelcontent">
-				<img
-					v-bind:id="'pfp_' + channel.accountname"
-					v-bind:src="channel.profile_url" />
-				<div class="title">
-					<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc == null" class="name">{{ channel.name }}</div>
-					<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span></div>
-					<div v-bind:id="'tags_' + channel.accountname" class="tags"># {{ channel.tags }}</div>
-				</div>
-				<div class="details">
-					<div class="days">{{ channel.streamdays }}</div>
-					<div class="server">{{ channel.server }}</div>
+		<template v-if="channels.length > 0">
+			<div v-bind:id="'channel_' + channel.accountname" :key="channel" class="channel" v-for="channel in filteredlist()" @click="openPage(channel.url)">
+				<div v-bind:id="'livetag_' + channel.accountname" style="display: none" class="livelabel">LIVE</div>
+				<div class="channelcontent">
+					<img
+						v-bind:id="'pfp_' + channel.accountname"
+						v-bind:src="channel.profile_url" />
+					<div class="title">
+						<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc == null" class="name">{{ channel.name }}</div>
+						<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span></div>
+						<div v-bind:id="'tags_' + channel.accountname" class="tags"># {{ channel.tags }}</div>
+					</div>
+					<div class="details">
+						<div class="days">{{ channel.streamdays }}</div>
+						<div class="server">{{ channel.server }}</div>
+					</div>
 				</div>
 			</div>
-		</div>
+		</template>
+		<p v-else>Unable to fetch channels.</p>
 	</div>
 </template>
 
