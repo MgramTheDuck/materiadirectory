@@ -1,42 +1,45 @@
-export default {
+import Papa from "papaparse";
 
+export default {
 	/**
 	 * @returns {Object[]} An array of channel objects.
 	 */
 
 	async load() {
-		const sheetURL = 'https://docs.google.com/spreadsheets/u/0/d/1xsugAiw0j3Kz0Ic41gD-QuMtfxiVtlf-mujLC3Xt78c/gviz/tq?tqx=out:json&sheet=twitch';
+		const sheetURL = 'https://docs.google.com/spreadsheets/d/1xsugAiw0j3Kz0Ic41gD-QuMtfxiVtlf-mujLC3Xt78c/export?format=csv&gid=0';
 		const defaultPicURL = 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-70x70.png';
 
 		// Fetches the channel list from google sheets
 		try {
 			const response = await fetch(sheetURL);
-			const text = await response.text();
-			var sheet = JSON.parse(text
-				.replace("/*O_o*/\ngoogle.visualization.Query.setResponse(", "")
-				.slice(0, -2)
-			);
+
+			// Parse the CSV String into an object with headers
+			var parsed = Papa.parse(await response.text(), { header: true })
+
 		} catch (error) {
 			console.log("Failed to fetch sheet:", error);
 			return [];
 		}
 
-		// Compile the google sheet data into an object array
-		const channels = sheet.table.rows.slice(1).reduce((acc, row) => {
-			const channelData = row.c.map(item => item?.v ?? null);
+		let acc = [];
+		for (let entry of parsed.data) {
 			acc.push({
-				name: channelData[0],
-				url: channelData[1],
-				tags: channelData[2],
-				server: channelData[3],
-				fc: channelData[4],
-				streamdays: channelData[5],
-				accountname: channelData[1].split('/').pop(),
+				name: entry.Name,
+				url: entry.Stream,
+				tags: entry['Content Tags'],
+				server: entry.Server,
+				fc: entry.FC,
+				streamdays: entry['Stream Days'],
+				accountname: entry.Stream.split('/').pop(),
 				profile_url: defaultPicURL,
 				status: { live: false },
-			});
-			return acc;
-		}, []);
+			})
+		}
+
+		console.log(acc)
+
+		// Compile the google sheet data into an object array
+		const channels = acc
 
 		// Load profile images from API only on production (reduces API calls in dev)
 		if (process.env.NODE_ENV !== 'production') {
