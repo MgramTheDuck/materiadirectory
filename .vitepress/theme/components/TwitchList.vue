@@ -3,8 +3,11 @@ import { data } from "./loaders/twitch.data.js";
 import { ref } from "vue";
 import { onMounted } from "vue";
 
-let input = ref("");
-let channels = data;
+const channels = data.channels;
+const tags = data.tags;
+
+const input = ref("");
+const selectedTags = ref([]);
 
 /**
  * Simple call for loading the channel link in a new tab.
@@ -15,13 +18,21 @@ function openPage(url) {
 }
 
 /**
- * Called to update channel list with filtered array based on channel tags
+ * Called to update channel list with filtered array based on search query and selectedTags.
  * @returns {array} Returns filtered array
  */
-function filteredlist() {
-	return channels.filter(channel =>
-	channel.tags.toLowerCase().includes(input.value.toLowerCase()));
+function filteredList() {
+  return channels.filter(channel => {
+    const searchQuery = input.value.toLowerCase();
+    const hasAllTags = selectedTags.value.every(tag => channel.tags.includes(tag));
+    return (
+      (channel.accountname.toLowerCase().includes(searchQuery) ||
+      channel.name.toLowerCase().includes(searchQuery)) &&
+      hasAllTags
+    );
+  });
 }
+
 
 /**
  * Dynamically Updates the website after page load with Twitch LIVE status info.
@@ -41,6 +52,16 @@ function updateStreamStatus(status) {
 	}
 }
 
+function handleTagToggle(event) {
+	const value = event.target.value;
+	const tags = selectedTags.value;
+
+	if (event.target.checked)
+		tags.push(value);
+	else
+		tags.splice(tags.indexOf(value), 1);
+}
+
 /**
  * After page load, sends a JSON GET request to cloudflare worker, the worker batches the channels and requests Twitch LIVE status
  * Returns the data in a JSON format that is sent o updateSteamStatus function to update the page.
@@ -58,30 +79,36 @@ onMounted(async () => {
 		headers: {
 			"content-type": "application/json",
 		},
-	})
+	});
 
-	let data = await response.json()
+	let data = await response.json();
 	data.forEach((channel) => { updateStreamStatus(channel); });
 });
-
 </script>
 
 <template>
-	<div class="filterbar">
-		<input class="search" type="text" v-model="input" placeholder="Search tags..." />
+	<div class="filter-bar">
+		<input class="search" type="text" v-model="input" placeholder="Search channel..." />
+		<div class="tags-list">
+			<label class="tag-container" :key="tag" v-for="tag in tags">
+				<input type="checkbox" :value="tag" @change="handleTagToggle" />
+				{{ tag }}
+			</label>
+		</div>
 	</div>
 	<div class="twitch-list">
 		<template v-if="channels.length > 0">
-			<div v-bind:id="'channel_' + channel.accountname" :key="channel" class="channel" v-for="channel in filteredlist()" @click="openPage(channel.url)">
-				<div v-bind:id="'livetag_' + channel.accountname" style="display: none" class="livelabel">LIVE</div>
-				<div class="channelcontent">
-					<img
-						v-bind:id="'pfp_' + channel.accountname"
-						v-bind:src="channel.profile_url" />
+			<div v-bind:id="'channel_' + channel.accountname" :key="channel" class="channel" v-for="channel in filteredList()"
+				@click="openPage(channel.url)">
+				<div v-bind:id="'livetag_' + channel.accountname" style="display: none" class="live-label">LIVE</div>
+				<div class="channel-content">
+					<img v-bind:id="'pfp_' + channel.accountname" v-bind:src="channel.profile_url" />
 					<div class="title">
-						<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc == null" class="name">{{ channel.name }}</div>
-						<div v-bind:id="'title_' + channel.accountname" v-if="channel.fc != null" class="name">{{ channel.name }} <span class="fc">«{{ channel.fc }}»</span></div>
-						<div v-bind:id="'tags_' + channel.accountname" class="tags"># {{ channel.tags }}</div>
+						<div v-bind:id="'title_' + channel.accountname" class="name">
+							{{ channel.name }}
+							<span class="fc" v-if="channel.fc">«{{ channel.fc }}»</span>
+						</div>
+						<div v-bind:id="'tags_' + channel.accountname" class="tags"># {{ channel.tags.join(", ") }}</div>
 					</div>
 					<div class="details">
 						<div class="days">{{ channel.streamdays }}</div>
@@ -95,15 +122,48 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.filter-bar {
+	display: flex;
+	flex-direction: column;
+}
 
 .search {
-	font-size: 1.2em;
-	font-weight: 500;
+	font-size: inherit;
 	margin-bottom: 0.5em;
-	padding: 0.3em 1em 0.3em 0.3em;
+	padding: 0.5rem;
 	border-radius: 6px;
-	border: 2px solid grey;
+	border: 2px solid rgba(128, 128, 128, 0.5);
 	background-color: var(--vp-c-bg-elv);
+}
+
+.tags-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.tag-container {
+	font-size: inherit;
+	padding: 0.5em;
+	border: 2px solid var(--vp-c-bg-elv);
+	background-color: var(--vp-c-bg-alt);
+	border-radius: 8px;
+	transition: 0.2s;
+	cursor: pointer;
+	user-select: none;
+}
+
+.tag-container:hover {
+	border-color: #a981ff32;
+}
+
+.tag-container:has(input:checked) {
+	border-color: var(--vp-c-brand-1);
+}
+
+.tags-list input {
+	display: none;
 }
 
 img {
@@ -130,7 +190,7 @@ img {
 	cursor: pointer;
 }
 
-.channelcontent {
+.channel-content {
 	display: flex;
 	padding: 0.9em 1em 0.9em 0.9em;
 }
@@ -139,7 +199,7 @@ img {
 	border-color: var(--livecolor);
 }
 
-.livelabel {
+.live-label {
 	color: white;
 	position: absolute;
 	top: -13px;
